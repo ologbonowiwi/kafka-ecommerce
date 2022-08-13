@@ -3,22 +3,27 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Producer<Object, String> producer = new KafkaProducer<>(properties());
+        Producer<String, String> producer = new KafkaProducer<>(properties());
 
-        String newOrderValue = "123214521,123125412321,21451253123"; // id_request, id_order, valor
-        ProducerRecord<Object, String> newOrderRecord = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", null, newOrderValue);
+        for (int i = 0; i < 100; i++) {
+            String key = UUID.randomUUID().toString();
 
-        producer.send(newOrderRecord, getCallback()).get();
+            String newOrderValue = "123214521,123125412321,21451253123"; // id_request, id_order, valor
+            ProducerRecord<String, String> newOrderRecord = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, newOrderValue);
 
-        String emailValue = "Thank you for your order! We are processing your order!";
-        ProducerRecord<Object, String> emailRecord = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", null, emailValue);
+            producer.send(newOrderRecord, getCallback()).get();
 
-        producer.send(emailRecord, getCallback()).get();
+            String emailValue = "Thank you for your order! We are processing your order!";
+            ProducerRecord<String, String> emailRecord = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", key, emailValue);
+
+            producer.send(emailRecord, getCallback()).get();
+        }
     }
 
     @NotNull
