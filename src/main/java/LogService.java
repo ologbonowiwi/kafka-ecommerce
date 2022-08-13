@@ -43,6 +43,7 @@ public class LogService {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, LogService.class.getName());
         properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, LogService.class.getName() + "-" + UUID.randomUUID().toString());
+        properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1");
 
         return properties;
     }
