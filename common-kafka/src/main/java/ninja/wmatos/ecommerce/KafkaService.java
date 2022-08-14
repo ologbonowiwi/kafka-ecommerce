@@ -5,7 +5,6 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
 import java.time.Duration;
@@ -50,7 +49,7 @@ public class KafkaService<T> implements Closeable {
         }
     }
 
-    private @NotNull Properties getProperties(Class<T> type, String groupId, Map<String, String> overrideProperties) {
+    private Properties getProperties(Class<T> type, String groupId, Map<String, String> overrideProperties) {
         Properties properties = new Properties();
 
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);

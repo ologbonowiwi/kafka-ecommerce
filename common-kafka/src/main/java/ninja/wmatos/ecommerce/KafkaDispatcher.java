@@ -5,7 +5,6 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
 import java.util.Properties;
@@ -25,7 +24,6 @@ public class KafkaDispatcher<T> implements Closeable {
         }
     }
 
-    @NotNull
     private static Callback getCallback() {
         return (data, ex) -> {
             if (ex != null) {
@@ -37,7 +35,7 @@ public class KafkaDispatcher<T> implements Closeable {
         };
     }
 
-    private static @NotNull Properties properties() {
+    private static Properties properties() {
         Properties properties = new Properties();
 
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
