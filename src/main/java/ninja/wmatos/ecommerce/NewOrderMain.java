@@ -1,3 +1,5 @@
+package ninja.wmatos.ecommerce;
+
 import java.util.UUID;
 
 public class NewOrderMain {

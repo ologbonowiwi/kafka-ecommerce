@@ -1,3 +1,5 @@
+package ninja.wmatos.ecommerce;
+
 import org.apache.kafka.clients.consumer.*;
 
 public class FraudDetectorService {
