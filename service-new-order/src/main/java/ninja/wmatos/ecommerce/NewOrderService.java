@@ -3,7 +3,7 @@ package ninja.wmatos.ecommerce;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class NewOrderMain {
+public class NewOrderService {
 
     public static void main(String[] args) {
         try (KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>(); KafkaDispatcher<Email> emailDispatcher = new KafkaDispatcher<>()) {
