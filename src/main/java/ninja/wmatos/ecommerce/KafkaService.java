@@ -12,17 +12,27 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class KafkaService implements Closeable {
     private final Consumer<String, String> consumer;
     private final ConsumerFunction<String, String> runner;
     private static final String BOOTSTRAP_SERVER = "127.0.0.1:9092";
 
-    public KafkaService(String groupId, String topic, @NotNull ConsumerFunction<String, String> runner) {
+    private KafkaService(String groupId, @NotNull ConsumerFunction<String, String> runner) {
         this.runner = runner;
-
         this.consumer = new KafkaConsumer<>(properties(groupId));
+    }
+
+    public KafkaService(String groupId, String topic, @NotNull ConsumerFunction<String, String> runner) {
+        this(groupId, runner);
         consumer.subscribe(Collections.singletonList(topic));
+    }
+
+    public KafkaService(String groupId, Pattern topic, ConsumerFunction<String, String> runner) {
+        this(groupId, runner);
+
+        consumer.subscribe(topic);
     }
 
     public void run() {
