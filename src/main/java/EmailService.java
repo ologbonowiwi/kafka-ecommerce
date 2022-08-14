@@ -4,9 +4,9 @@ public class EmailService {
     public static void main(String[] args) {
         var emailService = new EmailService();
 
-        KafkaService service = new KafkaService(EmailService.class.getName(), "ECOMMERCE_SEND_EMAIL", emailService::runner);
-
-        service.run();
+        try (KafkaService service = new KafkaService(EmailService.class.getName(), "ECOMMERCE_SEND_EMAIL", emailService::runner)) {
+            service.run();
+        }
     }
 
     private void runner(ConsumerRecord<String, String> record) {

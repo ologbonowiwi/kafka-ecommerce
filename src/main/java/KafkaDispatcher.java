@@ -5,10 +5,11 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Closeable;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class KafkaDispatcher {
+public class KafkaDispatcher implements Closeable {
     private final KafkaProducer<String, String> producer = new KafkaProducer<>(properties());
     private static final String BOOTSTRAP_SERVER = "127.0.0.1:9092";
 
@@ -42,5 +43,10 @@ public class KafkaDispatcher {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
         return properties;
+    }
+
+    @Override
+    public void close() {
+        producer.close();
     }
 }
