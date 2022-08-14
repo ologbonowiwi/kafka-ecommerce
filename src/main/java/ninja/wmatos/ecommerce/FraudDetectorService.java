@@ -2,15 +2,17 @@ package ninja.wmatos.ecommerce;
 
 import org.apache.kafka.clients.consumer.*;
 
+import java.util.Map;
+
 public class FraudDetectorService {
     public static void main(String[] args) {
         FraudDetectorService fraudDetector = new FraudDetectorService();
-        try (KafkaService service = new KafkaService(FraudDetectorService.class.getName(), "ECOMMERCE_NEW_ORDER", fraudDetector::runner)) {
+        try (KafkaService<Order> service = new KafkaService<>(FraudDetectorService.class.getName(), "ECOMMERCE_NEW_ORDER", fraudDetector::runner, Order.class, Map.of())) {
             service.run();
         }
     }
 
-    private void runner(ConsumerRecord<String, String> record) {
+    private void runner(ConsumerRecord<String, Order> record) {
         System.out.println("-------------------------------");
         System.out.println("Checking for fraud on new order");
         System.out.printf("Key: %s\n", record.key());

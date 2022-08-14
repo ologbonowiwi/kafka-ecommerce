@@ -2,16 +2,18 @@ package ninja.wmatos.ecommerce;
 
 import org.apache.kafka.clients.consumer.*;
 
+import java.util.Map;
+
 public class EmailService {
     public static void main(String[] args) {
         var emailService = new EmailService();
 
-        try (KafkaService service = new KafkaService(EmailService.class.getName(), "ECOMMERCE_SEND_EMAIL", emailService::runner)) {
+        try (KafkaService<Email> service = new KafkaService<>(EmailService.class.getName(), "ECOMMERCE_SEND_EMAIL", emailService::runner, Email.class, Map.of())) {
             service.run();
         }
     }
 
-    private void runner(ConsumerRecord<String, String> record) {
+    private void runner(ConsumerRecord<String, Email> record) {
         System.out.println("-------------------------------");
         System.out.println("Sending email");
         System.out.printf("Key: %s\n", record.key());
