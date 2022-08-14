@@ -11,12 +11,12 @@ import java.io.Closeable;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class KafkaDispatcher implements Closeable {
-    private final KafkaProducer<String, String> producer = new KafkaProducer<>(properties());
+public class KafkaDispatcher<T> implements Closeable {
+    private final KafkaProducer<String, T> producer = new KafkaProducer<>(properties());
     private static final String BOOTSTRAP_SERVER = "127.0.0.1:9092";
 
-    public void send(String topic, String key, String value) {
-        ProducerRecord<String, String> message = new ProducerRecord<>(topic, key, value);
+    public void send(String topic, String key, T value) {
+        ProducerRecord<String, T> message = new ProducerRecord<>(topic, key, value);
 
         try {
             this.producer.send(message, getCallback()).get();
